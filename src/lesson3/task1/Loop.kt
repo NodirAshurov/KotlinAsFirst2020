@@ -4,6 +4,7 @@ package lesson3.task1
 
 import lesson1.task1.sqr
 import kotlin.math.min
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -183,13 +184,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-
-    for (x in 1..n) {
-        if ((m <= sqr(x) && (n >= sqr(x))))
-            return true
+        for (i in m..n) {
+            if (sqrt(i.toDouble()).rem(1) == 0.0) return true
+        }
+        return false
     }
-    return false
-}
+
 
 
 
@@ -263,15 +263,21 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var count = 1
-    var number = n
-    while (number > 0) {
-        if (number / 10 != 0) {
-            count++
-        }
-        number /= 10
+    var currentLength = 0
+    var number = 1
+
+    while (true) {
+        currentLength += digitNumber(sqr(number))
+        if (currentLength >= n)
+            break
+        number++
     }
-    return count
+
+    val m = currentLength - n
+    val numberSqr = sqr(number)
+
+    return if (m == 0) numberSqr.rem(10.0.pow(m + 1).toInt()) else
+        numberSqr.rem(10.0.pow(m + 1).toInt()).div(10.0.pow(m).toInt())
 }
 
 /**
